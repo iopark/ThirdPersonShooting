@@ -19,8 +19,12 @@ public class HW_FPSCameraController : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         transform.SetParent(player.transform);
+        Vector3 setCameraPos = player.transform.position;
+        setCameraPos.y = 1.63f;
         // Given player's head's height = 1.63f; 
-        transform.position = new Vector3 (player.transform.position.x, 1.63f, player.transform.position.y); 
+        transform.position = setCameraPos; 
+
+            //new Vector3(player.transform.position.x, 1.63f, player.transform.position.y);
         // 1. set camera's forward as player's forward 
         transform.rotation = player.transform.rotation;
     }
