@@ -42,7 +42,14 @@ public class HW_FPSCameraController : MonoBehaviour
         Vector2 input = value.Get<Vector2>();
         lookDelta = new Vector3(input.x, input.y, 0); 
     }
-
+    private void OnEnable()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+    private void OnDisable()
+    {
+        Cursor.lockState = CursorLockMode.None;
+    }
     private void SetPosition()
     {
 
@@ -58,5 +65,6 @@ public class HW_FPSCameraController : MonoBehaviour
         yRotation += lookDelta.x * rotationSpeed * Time.deltaTime;
 
         transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0); //해당 Transform 의 로컬회전하는 값은 Degree값이다,
+        player.transform.localRotation = Quaternion.Euler(0, yRotation, 0); 
     }
 }
