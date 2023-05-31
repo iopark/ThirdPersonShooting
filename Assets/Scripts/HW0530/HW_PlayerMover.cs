@@ -39,7 +39,7 @@ public class HW_PlayerMover : MonoBehaviour
         yVelocity += Physics.gravity.y * Time.deltaTime; // falling speed, constantly changing by constant acceleration speed of the gravity, by default, -9.81N 
         if (CheckGround() && yVelocity < 0)
             yVelocity = 0;
-        if (yVelocity >= Physics.gravity.y) // to make sure falling speed reaches an equilibrium point based on the player's mass in relation to its gravity 
+        if (yVelocity <= Physics.gravity.y) // to make sure falling speed reaches an equilibrium point based on the player's mass in relation to its gravity 
             yVelocity = Physics.gravity.y;
 
         characterController.Move(Vector3.up * yVelocity * Time.deltaTime);

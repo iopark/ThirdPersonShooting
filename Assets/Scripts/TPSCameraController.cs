@@ -47,7 +47,6 @@ public class TPSCameraController : MonoBehaviour
 
         cameraRoot.rotation = Quaternion.Euler(xRotation, yRotation, 0);
         // 카메라를 기준으로 플레이어의 시선을 설정해주어서 TPS 특성에 맞게 맞춰주는작업이 필요하겠다. 
-
     }
     private void OnLook(InputValue value)
     {
