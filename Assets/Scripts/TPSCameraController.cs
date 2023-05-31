@@ -10,7 +10,8 @@ public class TPSCameraController : MonoBehaviour
     //[SerializeField] Camera camera;
 
     [SerializeField] float CameraSensitivity;
-    [SerializeField] float lookDistance; 
+    [SerializeField] float lookDistance;
+    [SerializeField] Transform aimTarget;
 
     private Vector2 lookDelta; 
     private float xRotation; 
@@ -31,6 +32,7 @@ public class TPSCameraController : MonoBehaviour
     private void Rotate()
     {
         Vector3 lookPoint = Camera.main.transform.position + Camera.main.transform.forward * lookDistance;
+        aimTarget.position = lookPoint;
         lookPoint.y = transform.position.y; // where player y-axis = 0; 
         //Vector3 cameraCenter = camera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0)); 
         transform.LookAt(lookPoint); // player will always based on the camera 

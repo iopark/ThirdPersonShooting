@@ -17,7 +17,7 @@ public class HW_TPSCameraController : MonoBehaviour
     [SerializeField] private Vector3 lookDelta; // Mouse input value, determined by changes applied by the pointer movement 
     [SerializeField] private float xRotation; // Camera 는 x축으로도 회전이 가능하며, (상하 movement) 
     [SerializeField] private float yRotation; // 카메라는 y축으로도 회전이 가능하다 (좌우 movement) 
-    [SerializeField] private float playerRotation; 
+    [SerializeField] private Transform playerRotation; 
     [Range(0f, 5f)]
     private float rotationSpeed;
     [SerializeField] private Vector3 offSet; // Radius 이기도 한 값이며, 
@@ -64,12 +64,13 @@ public class HW_TPSCameraController : MonoBehaviour
 
     private void CameraOrbit()
     {
-        float x = player.transform.position.x + offSet.magnitude * Mathf.Cos(playerRotation * Mathf.Deg2Rad);
-        float z = player.transform.position.z + offSet.magnitude * Mathf.Sin(playerRotation * Mathf.Deg2Rad);
-        Vector3 newPosition = new Vector3(x, shoulder.transform.position.y, z);
-        // Move the object to the desired position
-        transform.forward = shoulder.transform.forward;
-        transform.position = newPosition;
+        //float x = player.transform.position.x + offSet.magnitude * Mathf.Cos(playerRotation * Mathf.Deg2Rad);
+        //float z = player.transform.position.z + offSet.magnitude * Mathf.Sin(playerRotation * Mathf.Deg2Rad);
+        //Vector3 newPosition = new Vector3(x, shoulder.transform.position.y, z);
+        //// Move the object to the desired position
+        //transform.forward = shoulder.transform.forward;
+        //transform.position = newPosition;
+        transform.RotateAround(player.transform.position, Vector3.up, yRotation); 
         
     }
 
@@ -83,13 +84,17 @@ public class HW_TPSCameraController : MonoBehaviour
         //playerRotation = rotation.eulerAngles.y;
         //player.transform.rotation *= rotation; 
 
+        //Vector3 direction = gunPoint - player.transform.position;
+        //direction.y = player.transform.position.y;
+        ////direction.z = player.transform.position.z;
+        //Quaternion rotation = Quaternion.FromToRotation(player.transform.position, direction);
+        ////Quaternion forwardRotation = Quaternion.AngleAxis(player.transform.rotation.eulerAngles.y, Vector3.up);
+        ////Quaternion finalRotation = rotation * forwardRotation;
+        //playerRotation = rotation.eulerAngles.y;
+        //player.transform.rotation = rotation; 
         Vector3 direction = gunPoint - player.transform.position;
-        direction.y = player.transform.position.y;
-        //direction.z = player.transform.position.z;
-        Quaternion rotation = Quaternion.FromToRotation(player.transform.position, direction);
-        //Quaternion forwardRotation = Quaternion.AngleAxis(player.transform.rotation.eulerAngles.y, Vector3.up);
-        //Quaternion finalRotation = rotation * forwardRotation;
-        playerRotation = rotation.eulerAngles.y;
+        Quaternion rotation = Quaternion.LookRotation(direction, player.transform.up);
+        rotation.y = 0;
         player.transform.rotation = rotation; 
 
     }
@@ -99,9 +104,11 @@ public class HW_TPSCameraController : MonoBehaviour
         xRotation -= lookDelta.y * rotationSpeed * Time.deltaTime; // X 축으로 상하좌우로 움직인다.                                                 // Sidenote: 위로 올릴때는 포탄처럼 y 값이 내려갈때 위로 올려보니, 변하는 y 값을 내려서 보편적인 플레이어 움직임을 구현한다. 
         yRotation += lookDelta.x * rotationSpeed * Time.deltaTime;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-        transform.rotation = Quaternion.Euler(xRotation, yRotation, 0); //해당 Transform 의 로컬회전하는 값은 Degree값이다,
-        gunPoint = self.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 1));
         
+        transform.rotation = Quaternion.Euler(xRotation, yRotation, 0); //해당 Transform 의 로컬회전하는 값은 Degree값이다,
+        //playerRotation.rotation = transform.rotation; 
+        gunPoint = self.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 1));
+        CameraOrbit();
     }
 
     /// <summary>
@@ -110,6 +117,6 @@ public class HW_TPSCameraController : MonoBehaviour
     private void Rotate()
     {
         HeadBob();
-        CameraOrbit();
+
     }
 }
