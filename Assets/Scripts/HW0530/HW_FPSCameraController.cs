@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,6 +8,8 @@ public class HW_FPSCameraController : MonoBehaviour
 {
     [Header("CameraView")]
     private GameObject player;
+    private Camera cam; 
+
     //BOTH FPS and TPS Camera 는 Virtual Camera 가 아닌 일반 카메라로 구현해보았습니다. 
     [Header("Pertaining to Camera Movement")]
     [SerializeField] private Vector3 lookDelta; // Mouse input value, determined by changes applied by the pointer movement 
@@ -17,6 +20,7 @@ public class HW_FPSCameraController : MonoBehaviour
 
     private void Awake()
     {
+        cam = gameObject.GetComponent<Camera>();
         player = GameObject.FindGameObjectWithTag("Player");
         transform.SetParent(player.transform);
         Vector3 setCameraPos = player.transform.position;
@@ -45,7 +49,7 @@ public class HW_FPSCameraController : MonoBehaviour
 
     private void SetPosition()
     {
-
+        Vector3 aimpoint = cam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
     }
 
     /// <summary>
