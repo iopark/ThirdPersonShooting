@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class HW_FPSCameraController : MonoBehaviour
 {
+    // Taking approach from https://www.youtube.com/watch?v=owW7BE2t8ME&t=770s by Deniz SimSek. 
     [Header("CameraView")]
     private GameObject player;
     private Camera cam; 
