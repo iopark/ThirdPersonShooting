@@ -35,7 +35,10 @@ public class HW_PlayerMover : MonoBehaviour
         // where UnitVector * a angle would shift that unit vector in accordance to a given *new* angle value. 
 
         // 그럼 플레이어의 앞뒤 움직임은 이제 총구방향을 움직이게 된다. 
-
+        
+        // 플레이어의 회전값 계산 
+        // using Mathf.tan2, which takes in Opp, Hyp value, given the player's forward position in 2D grid is pi/2, 
+        // because we already know the target direction (focusPoint), take x, y of that, multiply by the 
         characterController.Move(focusPoint * moveDir.z * moveSpeed * Time.deltaTime);
         characterController.Move(transform.right * moveDir.x * moveSpeed * Time.deltaTime);
         
