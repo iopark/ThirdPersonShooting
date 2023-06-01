@@ -103,8 +103,6 @@ public class HW_TPSCameraController : MonoBehaviour
         Quaternion rotation = Quaternion.LookRotation(direction, player.transform.up);
         rotation.y = 0;
         player.transform.rotation = rotation; 
-        Vector3.SmoothDamp
-
     }
 
     private void Look()

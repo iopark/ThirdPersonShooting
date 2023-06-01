@@ -14,6 +14,8 @@ public class HW_PlayerMover : MonoBehaviour
     [SerializeField] private float jumpSpeed;
     [SerializeField] private float yVelocity;
 
+    [SerializeField] private float gunPointDirection;
+
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
@@ -29,8 +31,14 @@ public class HW_PlayerMover : MonoBehaviour
 
     private void Move()
     {
-        characterController.Move(transform.forward * moveDir.z * moveSpeed * Time.deltaTime);
+        Vector3 focusPoint = Quaternion.Euler(0f, gunPointDirection, 0f) * transform.forward; // 총구시점의 각도에 플레이어의 z값을 곱한값 
+        // where UnitVector * a angle would shift that unit vector in accordance to a given *new* angle value. 
+
+        // 그럼 플레이어의 앞뒤 움직임은 이제 총구방향을 움직이게 된다. 
+
+        characterController.Move(focusPoint * moveDir.z * moveSpeed * Time.deltaTime);
         characterController.Move(transform.right * moveDir.x * moveSpeed * Time.deltaTime);
+        
     }
 
     private void Jump()
