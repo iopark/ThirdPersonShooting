@@ -7,11 +7,11 @@ using UnityEngine.InputSystem;
 public class TPSCameraController : MonoBehaviour
 {
     [SerializeField] Transform cameraRoot;
+    [SerializeField] Transform aimTarget;
     //[SerializeField] Camera camera;
 
     [SerializeField] float CameraSensitivity;
     [SerializeField] float lookDistance;
-    [SerializeField] Transform aimTarget;
 
     private Vector2 lookDelta; 
     private float xRotation; 
