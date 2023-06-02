@@ -2,21 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OPtester : MonoBehaviour
+namespace ObjectPooling
 {
-    private ObjectPool pool;
-
-    private void Awake()
+    public class OPtester : MonoBehaviour
     {
-        pool = GetComponent<ObjectPool>();  
-    }
+        private ObjectPool pool;
 
-    private void Update()
-    {
-        if (Input.GetKey(KeyCode.Space)) 
+        private void Awake()
         {
-            Poolable poolable = pool.Get();
-            pool.transform.position = new Vector2(Random.Range(-10f, 10f), Random.Range(-10f, 10f)); 
+            pool = GetComponent<ObjectPool>();
+        }
+
+        private void Update()
+        {
+            if (Input.GetKey(KeyCode.Space))
+            {
+                Poolable poolable = pool.Get();
+                pool.transform.position = new Vector2(Random.Range(-10f, 10f), Random.Range(-10f, 10f));
+            }
         }
     }
 }
+

@@ -2,23 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Poolable : MonoBehaviour
+namespace ObjectPooling
 {
-    // Component attachable to the prefab used as a poolable. 
-    [SerializeField] float releaseTime; // return timing 
-    private ObjectPool pool;
-
-    public ObjectPool Pool { get { return pool; } set { pool = value; } }
-
-    private void OnEnable()
+    public class Poolable : MonoBehaviour
     {
-        releaseTime = 3; 
-        StartCoroutine(ReleaseTimer());
-    }
+        // Component attachable to the prefab used as a poolable. 
+        [SerializeField] float releaseTime; // return timing 
+        private ObjectPool pool;
 
-    IEnumerator ReleaseTimer()
-    {
-        yield return new WaitForSeconds(releaseTime);
-        pool.Release(this); 
+        public ObjectPool Pool { get { return pool; } set { pool = value; } }
+
+        private void OnEnable()
+        {
+            releaseTime = 3;
+            StartCoroutine(ReleaseTimer());
+        }
+
+        IEnumerator ReleaseTimer()
+        {
+            yield return new WaitForSeconds(releaseTime);
+            pool.Release(this);
+        }
     }
 }
+

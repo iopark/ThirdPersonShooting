@@ -12,7 +12,10 @@ public class GameSetting
 
     private static void InitManagers()
     {
-        GameObject gameObj = new GameObject() { name = "Game Manager" };
-        gameObj.AddComponent<GameManager>(); 
+        if (GameManager.Instance == null)
+        {
+            GameObject gameObj = new GameObject() { name = "Game Manager" };
+            gameObj.AddComponent<GameManager>();
+        }
     }
 }
