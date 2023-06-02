@@ -31,7 +31,7 @@ public class Gun : MonoBehaviour
             IHittable hittableObj = hit.transform.GetComponent<IHittable>(); // Interface도 Componenent처럼 취급이 가능하다: how crazy is that;
             //ParticleSystem effect = Instantiate(hitEffect, hit.point, Quaternion.LookRotation(hit.normal));
             //Destroy(effect.gameObject, 3f);
-            ParticleSystem effect = GameManager.Pool.Get(hitEffect, hit.point, Quaternion.LookRotation(hit.normal));
+            ParticleSystem effect = GameManager.Resource.Instantiate(hitEffect, hit.point, Quaternion.LookRotation(hit.normal), true);
             //effect.transform.position = hit.point;
             //effect.transform.rotation = Quaternion.LookRotation(hit.normal);
             //effect.transform.parent = hit.transform; 
@@ -60,13 +60,13 @@ public class Gun : MonoBehaviour
     IEnumerator ReleaseRoutine(GameObject effect)
     {
         yield return new WaitForSeconds(3f); 
-        GameManager.Pool.Release(effect); // Instead of Destroy, simply return it to the ObjectPool within the Dict 
+        GameManager.Resource.Destroy(effect); // Instead of Destroy, simply return it to the ObjectPool within the Dict 
     }
 
     IEnumerator TrailRoutine(Vector3 startPoint, Vector3 endPoint)
     {
         //TrailRenderer trail = Instantiate(bulletTrail, muzzleEffect.transform.position, Quaternion.identity);
-        TrailRenderer trail = GameManager.Pool.Get(bulletTrail, startPoint, Quaternion.identity); 
+        TrailRenderer trail = GameManager.Resource.Instantiate(bulletTrail, startPoint, Quaternion.identity, true); 
         trail.Clear(); 
 
         float totalTime = Vector2.Distance(startPoint, endPoint) / bulletSpeed;
@@ -80,7 +80,7 @@ public class Gun : MonoBehaviour
             yield return null; 
         }
         //Destroy(trail.gameObject, 3f);
-        GameManager.Pool.Release(trail.gameObject);
+        GameManager.Resource.Destroy(trail.gameObject);
 
         yield return null;
 

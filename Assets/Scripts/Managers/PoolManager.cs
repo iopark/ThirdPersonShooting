@@ -92,6 +92,35 @@ public class PoolManager : MonoBehaviour
         return Get(prefab, Vector3.zero, Quaternion.identity); // 오버로딩은 이렇게 하는것이 정배다. 
     }
 
+    public bool IsContain<T>(T original) where T: Object
+    {
+        if (original is GameObject)
+        {
+            GameObject prefab = original as GameObject;
+            string key = prefab.name;
+
+            if (poolDic.ContainsKey(key))
+                return true;
+            else
+                return false;
+
+        }
+        else if (original is Component)
+        {
+            Component component = original as Component;
+            string key = component.gameObject.name;
+
+            if (poolDic.ContainsKey(key))
+                return true;
+            else
+                return false;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public bool Release(GameObject go)
     {
         if (!poolDic.ContainsKey(go.name))

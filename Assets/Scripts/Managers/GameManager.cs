@@ -7,7 +7,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
-    private static PoolManager pool; 
+    private static PoolManager pool;
+    private static ResourceManager resource;
 
     public static GameManager Instance
     {
@@ -16,6 +17,10 @@ public class GameManager : MonoBehaviour
     public static PoolManager Pool
     {
         get { return pool; }
+    }
+    public static ResourceManager Resource
+    {
+        get { return resource; }
     }
 
 
@@ -37,5 +42,9 @@ public class GameManager : MonoBehaviour
         GameObject poolObj = new GameObject() { name = "Pool Manager" };
         poolObj.transform.SetParent(transform); 
         pool = poolObj.AddComponent<PoolManager>();
+
+        GameObject resourceObj = new GameObject() { name = "Resource Manager" }; 
+        resourceObj.transform.SetParent(transform);
+        resource = resourceObj.AddComponent<ResourceManager>();
     }
 }
