@@ -16,6 +16,7 @@ public class PlayerShooter : MonoBehaviour
 
     // Any player is to have Weapon Holder, (which wields type of a gun) 
     [SerializeField] WeaponHolder weaponHolder;
+
     private void Awake()
     {
         anim = GetComponent<Animator>();

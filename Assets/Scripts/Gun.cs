@@ -31,7 +31,8 @@ public class Gun : MonoBehaviour
             IHittable hittableObj = hit.transform.GetComponent<IHittable>(); // Interface도 Componenent처럼 취급이 가능하다: how crazy is that;
             //ParticleSystem effect = Instantiate(hitEffect, hit.point, Quaternion.LookRotation(hit.normal));
             //Destroy(effect.gameObject, 3f);
-            ParticleSystem effect = GameManager.Resource.Instantiate(hitEffect, hit.point, Quaternion.LookRotation(hit.normal), true);
+            //ParticleSystem hitEffect = GameManager.Resource.Load<ParticleSystem>("Prefabs/HitEffect"); 
+            ParticleSystem effect = GameManager.Resource.Instantiate<ParticleSystem>("Prefabs/HitEffect", hit.point, Quaternion.LookRotation(hit.normal), true);
             //effect.transform.position = hit.point;
             //effect.transform.rotation = Quaternion.LookRotation(hit.normal);
             //effect.transform.parent = hit.transform; 

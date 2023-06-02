@@ -13,8 +13,6 @@ public class PoolManager : MonoBehaviour
     private void Awake()
     {
         poolDic = new Dictionary<string, ObjectPool<GameObject>>();
-        poolContainer = new Dictionary<string, Transform>();
-        poolRoot = new GameObject("PoolRoot").transform;
     }
 
     /// <summary>
@@ -25,7 +23,7 @@ public class PoolManager : MonoBehaviour
     /// <param name="position"></param>
     /// <param name="rotation"></param>
     /// <returns></returns>
-    public T Get<T>(T original, Vector3 position, Quaternion rotation) where T : Object
+    public T Get<T>(T original, Vector3 position, Quaternion rotation, Transform parent) where T : Object
     {
         // GameObject 일때
         if (original is GameObject)
@@ -40,7 +38,7 @@ public class PoolManager : MonoBehaviour
             GameObject go = pool.Get();  
             go.transform.position = position;
             go.transform.rotation = rotation;
-            go.transform.SetParent(transform); 
+            go.transform.SetParent(parent); 
             return go as T;
         }
         // Component 일때 
@@ -55,7 +53,7 @@ public class PoolManager : MonoBehaviour
             GameObject go = poolDic[key].Get(); // 게임오브젝트를 불러온뒤, 
             go.transform.position = position;
             go.transform.rotation = rotation;
-            go.transform.SetParent(transform);
+            go.transform.SetParent(parent);
             return go.GetComponent<T>(); // 해당 게임오브젝트의 컴포넌트를 반환하는 형식으로 해주면 된다. 
         }
         // GameObj 도, Componenent가 아니면 뱉어라. 먹는거 아니다. 
@@ -78,6 +76,15 @@ public class PoolManager : MonoBehaviour
     //    go.transform.rotation = rotation;
     //    return go;
     //}
+    public T Get<T>(T original, Vector3 position, Quaternion rotation) where T : Object
+    {
+        return Get<T>(original, position, rotation, null);
+    }
+
+    public T Get<T>(T original, Transform parent) where T : Object
+    {
+        return Get<T>(original, Vector3.zero, Quaternion.identity, parent);
+    }
 
     public T Get<T>(T prefab) where T: Object
     {
@@ -159,7 +166,10 @@ public class PoolManager : MonoBehaviour
             actionOnDestroy: (GameObject go) =>
             {
                 Destroy(go);
-            }
+            }, 
+            true, 
+            10, // default size 
+            200 // Max size
             );
         poolDic.Add(key, pool); // 마지막으로 새로 추가된 
     }
